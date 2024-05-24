@@ -1,0 +1,690 @@
+# Compute quartile values
+quartiles = data.groupby('insuranceclaim')['age'].describe()
+# Display quartile values
+print(quartiles)
+
+#univariant 
+##Continuous
+# Create a histogram chart
+import matplotlib.ticker as ticker
+
+n, bins, patches = plt.hist(data['age'], bins=10, range=(15,65), edgecolor='black', alpha=0.75)
+plt.xlabel('Age')
+plt.ylabel('Percentage')
+plt.title('Distribution of Ages')
+plt.xticks(bins)
+plt.grid(axis='y', alpha=0.75)
+# Add percentage labels to the chart
+total = sum(n)
+for i, patch in enumerate(patches):
+    percentage = '{:.1f}%'.format(100 * n[i] / total)
+    x = patch.get_x() + patch.get_width() / 2
+    y = patch.get_height()
+    plt.text(x, y, percentage, ha='center', va='bottom')
+# Set y-axis ticks as percentages
+ax = plt.gca()
+ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: '{:.0%}'.format(y/total)))
+plt.ylim(0, max(n)*1.2)
+plt.show()
+    
+    
+# Create a histogram chart
+n, bins, patches = plt.hist(data['bmi'], bins=8, range=(15,55), edgecolor='black', alpha=0.75)
+plt.xlabel('BMI')
+plt.ylabel('Percentage')
+plt.title('Distribution of BMI')
+plt.xticks(bins)
+plt.grid(axis='y', alpha=0.75)
+
+# Add percentage labels to the chart
+total = sum(n)
+for i, patch in enumerate(patches):
+    percentage = '{:.1f}%'.format(100 * n[i] / total)
+    x = patch.get_x() + patch.get_width() / 2
+    y = patch.get_height()
+    plt.text(x, y, percentage, ha='center', va='bottom')
+# Set y-axis ticks as percentages
+ax = plt.gca()
+ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: '{:.0%}'.format(y/total)))
+plt.ylim(0, max(n)*1.2)
+plt.show()
+
+
+# Create a histogram chart
+n, bins, patches = plt.hist(data['steps'], bins=5, range=(3000,10050), edgecolor='black', alpha=0.75)
+plt.xlabel('Steps')
+plt.ylabel('Percentage')
+plt.title('Distribution of Steps')
+plt.xticks(bins)
+plt.grid(axis='y', alpha=0.75)
+
+# Add percentage labels to the chart
+total = sum(n)
+for i, patch in enumerate(patches):
+    percentage = '{:.1f}%'.format(100 * n[i] / total)
+    x = patch.get_x() + patch.get_width() / 2
+    y = patch.get_height()
+    plt.text(x, y, percentage, ha='center', va='bottom')
+# Set y-axis ticks as percentages
+ax = plt.gca()
+ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: '{:.0%}'.format(y/total)))
+plt.ylim(0, max(n)*1.2)
+plt.show()
+
+
+# Create a histogram chart
+n, bins, patches = plt.hist(data['charges'], bins=5, range=(1000,64000), edgecolor='black', alpha=0.75)
+plt.xlabel('Charges')
+plt.ylabel('Percentage')
+plt.title('Distribution of Charges')
+plt.xticks(bins)
+plt.grid(axis='y', alpha=0.75)
+
+# Add percentage labels to the chart
+total = sum(n)
+for i, patch in enumerate(patches):
+    percentage = '{:.1f}%'.format(100 * n[i] / total)
+    x = patch.get_x() + patch.get_width() / 2
+    y = patch.get_height()
+    plt.text(x, y, percentage, ha='center', va='bottom')
+# Set y-axis ticks as percentages
+ax = plt.gca()
+ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: '{:.0%}'.format(y/total)))
+plt.ylim(0, max(n)*1.2)
+plt.show()
+
+# Create a histogram chart
+n, bins, patches = plt.hist(data['children'], bins=6, range=(0,6), edgecolor='black', alpha=0.75)
+plt.xlabel('Children')
+plt.ylabel('Percentage')
+plt.title('Distribution of Children/dependents')
+plt.xticks(bins)
+plt.grid(axis='y', alpha=0.75)
+
+# Add percentage labels to the chart
+total = sum(n)
+for i, patch in enumerate(patches):
+    percentage = '{:.1f}%'.format(100 * n[i] / total)
+    x = patch.get_x() + patch.get_width() / 2
+    y = patch.get_height()
+    plt.text(x, y, percentage, ha='center', va='bottom')
+# Set y-axis ticks as percentages
+ax = plt.gca()
+ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: '{:.0%}'.format(y/total)))
+plt.ylim(0, max(n)*1.2)
+plt.show()
+
+
+##catgory varaible
+# Count the number of occurrences of each category
+counts = data['sex'].value_counts()
+fig, ax = plt.subplots(figsize=(5, 8))
+ax.pie(counts, labels=counts.index, autopct='%1.1f%%')
+plt.title('Distribution of Sex')
+# Show the plot
+plt.show()
+
+# Count the number of occurrences of each category
+counts = data['smoker'].value_counts()
+fig, ax = plt.subplots(figsize=(5, 8))
+ax.pie(counts, labels=counts.index, autopct='%1.1f%%')
+plt.title('Distribution of smoker ')
+# Show the plot
+plt.show()
+    
+# Count the number of occurrences of each category
+counts = data['region'].value_counts()
+fig, ax = plt.subplots(figsize=(7, 8))
+ax.pie(counts, labels=counts.index, autopct='%1.1f%%',startangle=75)
+plt.title('Distribution of region')
+# Show the plot
+plt.show()
+
+# Count the number of occurrences of each category
+counts = data['insuranceclaim'].value_counts()
+fig, ax = plt.subplots(figsize=(5, 8))
+ax.pie(counts, labels=counts.index, autopct='%1.1f%%',startangle=75)
+# Add a legend with custom labels
+handles, _ = ax.get_legend_handles_labels()
+labels = ['1 = claim','0 = not claim']
+ax.legend(handles, labels, loc='best')
+plt.title('Distribution of Insurance claim')
+# Show the plot
+plt.show()
+
+#bivariant 
+## continuous 
+pd.set_option('display.float_format', '{:.2f}'.format)
+
+quartiles = data.groupby('insuranceclaim')['age'].describe().drop(columns=['count', 'mean', 'std'])
+print(quartiles)
+
+
+quartiles = data.groupby('insuranceclaim')['bmi'].describe().drop(columns=['count', 'mean', 'std'])
+print(quartiles)
+
+quartiles = data.groupby('insuranceclaim')['steps'].describe().drop(columns=['count', 'mean', 'std'])
+print(quartiles)
+
+
+quartiles = data.groupby('insuranceclaim')['children'].describe().drop(columns=['count', 'mean', 'std'])
+print(quartiles)
+
+pd.set_option('display.float_format', lambda x: '%.2f' % x)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+# Compute quartile values
+quartiles = data.groupby('insuranceclaim')['charges'].describe()
+print(quartiles)
+quartiles = data.groupby('insuranceclaim')['charges'].describe().drop(columns=['count', 'mean', 'std'])
+print(quartiles)
+
+
+# Compute quartile values
+quartiles = data.groupby('insuranceclaim')['age'].describe()
+print(quartiles)
+sns.boxplot(data=data, x='insuranceclaim', y='age')
+# Set the title and axes labels
+plt.title('Age Distribution by Insurance Claim')
+plt.xlabel('Insurance Claim')
+plt.ylabel('Age')
+# Show the plot
+plt.show()
+
+# Compute quartile values
+quartiles = data.groupby('insuranceclaim')['steps'].describe()
+print(quartiles)
+
+sns.boxplot(data=data, x='insuranceclaim', y='steps')
+# Set the title and axes labels
+plt.title('Steps Distribution by Insurance Claim')
+plt.xlabel('Insurance Claim')
+plt.ylabel('Steps')
+# Show the plot
+plt.show()
+
+# Compute quartile values
+quartiles = data.groupby('insuranceclaim')['bmi'].describe()
+print(quartiles)
+
+sns.boxplot(data=data, x='insuranceclaim', y='bmi')
+# Set the title and axes labels
+plt.title('BMI Distribution by Insurance Claim')
+plt.xlabel('Insurance Claim')
+plt.ylabel('BMI')
+# Show the plot
+plt.show()
+
+
+# Set display options to show full floating point values
+pd.set_option('display.float_format', lambda x: '%.5f' % x)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+# Compute quartile values
+quartiles = data.groupby('insuranceclaim')['charges'].describe()
+print(quartiles)
+
+sns.boxplot(data=data, x='insuranceclaim', y='charges')
+# Set the title and axes labels
+plt.title('Charges Distribution by Insurance Claim')
+plt.xlabel('Insurance Claim')
+plt.ylabel('Charges')
+# Show the plot
+plt.show()
+
+
+##catgorical
+# Calculate the count and ratio for each Gender and Sample_Status combination
+percentData = data.groupby(['sex', 'insuranceclaim']).size().reset_index(name='n')
+percentData['ratio'] = percentData.groupby('sex')['n'].apply(lambda x: 100 * x / x.sum())
+
+
+# Create the stacked bar chart with percentage labels
+fig, ax = plt.subplots(figsize=(5,6 ))
+bar_plot = percentData.pivot(index='sex', columns='insuranceclaim', values='ratio').plot.bar(
+    stacked=True, ax=ax
+)
+for rect in ax.containers:
+    ax.bar_label(rect, label_type='edge', labels=np.round(rect.datavalues, 1), padding=3)
+
+# Set the axis titles and legend
+ax.set_title('Gender distribution')
+ax.set_xlabel('Gender')
+ax.set_ylabel('Percentage')
+handles, _ = ax.get_legend_handles_labels()
+labels = ['0 = not claim','1 = claim',]
+ax.legend(handles, labels, title='insurance claim', bbox_to_anchor=(1, 1), loc='upper left')
+# Show the plot
+plt.show()
+
+# Calculate the count and ratio for each Gender and Sample_Status combination
+percentData = data.groupby(['sex', 'insuranceclaim']).size().reset_index(name='n')
+percentData['ratio'] = percentData.groupby('sex')['n'].apply(lambda x: 100 * x / x.sum())
+
+
+# Create the stacked bar chart with percentage labels
+fig, ax = plt.subplots(figsize=(5,6 ))
+bar_plot = percentData.pivot(index='sex', columns='insuranceclaim', values='ratio').plot.bar(
+    stacked=True, ax=ax
+)
+for rect in ax.containers:
+    ax.bar_label(rect, label_type='edge', labels=np.round(rect.datavalues, 1), padding=3)
+
+# Set the axis titles and legend
+ax.set_title('Gender distribution by Insurance Claim')
+ax.set_xlabel('Gender')
+ax.set_ylabel('Percentage')
+ax.legend().remove()
+# Show the plot
+plt.show()
+
+
+# Calculate the count and ratio for each Gender and Sample_Status combination
+percentData = data.groupby(['smoker', 'insuranceclaim']).size().reset_index(name='n')
+percentData['ratio'] = percentData.groupby('smoker')['n'].apply(lambda x: 100 * x / x.sum())
+
+
+# Create the stacked bar chart with percentage labels
+fig, ax = plt.subplots(figsize=(5,6 ))
+bar_plot = percentData.pivot(index='smoker', columns='insuranceclaim', values='ratio').plot.bar(
+    stacked=True, ax=ax
+)
+for rect in ax.containers:
+    ax.bar_label(rect, label_type='edge', labels=np.round(rect.datavalues, 1), padding=3)
+
+# Set the axis titles and legend
+ax.set_title('Smoker distribution by Insurance Claim')
+ax.set_xlabel('Smokers')
+ax.set_ylabel('Percentage')
+ax.legend().remove()
+# Show the plot
+plt.show()
+
+# Calculate the count and ratio for each Gender and Sample_Status combination
+percentData = data.groupby(['region', 'insuranceclaim']).size().reset_index(name='n')
+percentData['ratio'] = percentData.groupby('region')['n'].apply(lambda x: 100 * x / x.sum())
+
+
+# Create the stacked bar chart with percentage labels
+fig, ax = plt.subplots(figsize=(5,6 ))
+bar_plot = percentData.pivot(index='region', columns='insuranceclaim', values='ratio').plot.bar(
+    stacked=True, ax=ax
+)
+for rect in ax.containers:
+    ax.bar_label(rect, label_type='edge', labels=np.round(rect.datavalues, 1), padding=3)
+
+# Set the axis titles and legend
+ax.set_title('Region distribution by Insurance Claim')
+ax.set_xlabel('Regions')
+ax.set_ylabel('Percentage')
+ax.legend().remove()
+# Show the plot
+plt.show()
+
+##continuous stacked bar chart
+bins1 = [15,20, 25, 30, 35, 40, 45,50,55,60,65]
+labels1 =['15-19','20-24', '25-29', '30-34', '35-39', '40-44','45-49','50-54','55-60','61-65']
+
+data['age_range'] = pd.cut(data['age'], bins1, labels=labels1)
+
+bins2 = [15,20, 25, 30, 35, 40, 45,50,55]
+labels2 =['15-19','20-24', '25-29', '30-34', '35-39', '40-44','45-49','50-54']
+data['bmi_range'] = pd.cut(data['bmi'], bins2, labels=labels2)
+
+bins3 = [1000,13600,26200,38800,51400,64000]
+labels3 =['1000-13599','13600-26200', '26200-38800', '38800-51400', '51400-64000']
+data['charges_range'] = pd.cut(data['charges'], bins3, labels=labels3)
+
+bins4= [3000,4410,5820,7230,8640,10050]
+labels4 =['3000-4409','4410-5819', '5820-7229', '7230-8639', '8640-10050']
+data['steps_range'] = pd.cut(data['steps'], bins4, labels=labels4)
+
+# Calculate the count and ratio for each Gender and Sample_Status combination
+percentData = data.groupby(['age_range', 'insuranceclaim']).size().reset_index(name='n')
+percentData['ratio'] = percentData.groupby('age_range')['n'].apply(lambda x: 100 * x / x.sum())
+
+# Create the stacked bar chart with percentage labels
+fig, ax = plt.subplots(figsize=(6,6 ))
+bar_plot = percentData.pivot(index='age_range', columns='insuranceclaim', values='ratio').plot.bar(
+    stacked=True, ax=ax,width=0.8
+)
+for rect in ax.containers:
+    ax.bar_label(rect, label_type='edge', labels=np.round(rect.datavalues, 1), padding=3)
+
+# Set the axis titles and legend
+ax.set_title('Age distribution by Insurance Claim')
+ax.set_xlabel('Age')
+ax.set_ylabel('Percentage')
+ax.legend().remove()
+plt.show()
+
+# Calculate the count and ratio for each Gender and Sample_Status combination
+percentData = data.groupby(['bmi_range', 'insuranceclaim']).size().reset_index(name='n')
+percentData['ratio'] = percentData.groupby('bmi_range')['n'].apply(lambda x: 100 * x / x.sum())
+
+# Create the stacked bar chart with percentage labels
+fig, ax = plt.subplots(figsize=(6,6 ))
+bar_plot = percentData.pivot(index='bmi_range', columns='insuranceclaim', values='ratio').plot.bar(
+    stacked=True, ax=ax,width=0.8
+)
+for rect in ax.containers:
+    ax.bar_label(rect, label_type='edge', labels=np.round(rect.datavalues, 1), padding=3)
+
+# Set the axis titles and legend
+ax.set_title('BMI distribution by Insurance Claim')
+ax.set_xlabel('BMI')
+ax.set_ylabel('Percentage')
+ax.legend().remove()
+
+plt.show()
+
+# Calculate the count and ratio for each Gender and Sample_Status combination
+percentData = data.groupby(['charges_range', 'insuranceclaim']).size().reset_index(name='n')
+percentData['ratio'] = percentData.groupby('charges_range')['n'].apply(lambda x: 100 * x / x.sum())
+
+# Create the stacked bar chart with percentage labels
+fig, ax = plt.subplots(figsize=(6,6 ))
+bar_plot = percentData.pivot(index='charges_range', columns='insuranceclaim', values='ratio').plot.bar(
+    stacked=True, ax=ax,width=0.8
+)
+for rect in ax.containers:
+    ax.bar_label(rect, label_type='edge', labels=np.round(rect.datavalues, 1), padding=3)
+
+# Set the axis titles and legend
+ax.set_title('Charges distribution by Insurance Claim')
+ax.set_xlabel('Charges')
+ax.set_ylabel('Percentage')
+ax.legend().remove()
+
+plt.show()
+
+# Calculate the count and ratio for each Gender and Sample_Status combination
+percentData = data.groupby(['steps_range', 'insuranceclaim']).size().reset_index(name='n')
+percentData['ratio'] = percentData.groupby('steps_range')['n'].apply(lambda x: 100 * x / x.sum())
+
+# Create the stacked bar chart with percentage labels
+fig, ax = plt.subplots(figsize=(6,6 ))
+bar_plot = percentData.pivot(index='steps_range', columns='insuranceclaim', values='ratio').plot.bar(
+    stacked=True, ax=ax,width=0.8
+)
+for rect in ax.containers:
+    ax.bar_label(rect, label_type='edge', labels=np.round(rect.datavalues, 1), padding=3)
+
+# Set the axis titles and legend
+ax.set_title('Steps distribution by Insurance Claim')
+ax.set_xlabel('Steps')
+ax.set_ylabel('Percentage')
+handles, _ = ax.get_legend_handles_labels()
+ax.legend().remove()
+
+plt.show()
+
+
+# Calculate the count and ratio for each Gender and Sample_Status combination
+percentData = data.groupby(['children', 'insuranceclaim']).size().reset_index(name='n')
+percentData['ratio'] = percentData.groupby('children')['n'].apply(lambda x: 100 * x / x.sum())
+
+# Create the stacked bar chart with percentage labels
+fig, ax = plt.subplots(figsize=(6,6 ))
+bar_plot = percentData.pivot(index='children', columns='insuranceclaim', values='ratio').plot.bar(
+    stacked=True, ax=ax,width=0.8
+)
+for rect in ax.containers:
+    ax.bar_label(rect, label_type='edge', labels=np.round(rect.datavalues, 1), padding=3)
+
+# Set the axis titles and legend
+ax.set_title('Children/dependents distribution by Insurance Claim')
+ax.set_xlabel('Children')
+ax.set_ylabel('Percentage')
+handles, _ = ax.get_legend_handles_labels()
+ax.legend().remove()
+
+plt.show()
+
+from tabulate import tabulate
+
+# create the contingency table with percentages
+cont_table = pd.crosstab(data['age_range'], data['insuranceclaim'], margins=True, margins_name='Total')
+row_pct = round(cont_table.div(cont_table['Total'], axis=0)*100, 2)
+col_pct = round(cont_table.div(cont_table['Total'].iloc[-1], axis=1)*100, 2)
+table_combined = pd.concat([cont_table, row_pct, col_pct], axis=1, sort=False)
+table_combined = table_combined.rename(columns={'insuranceclaim': '1', 0: '0'})
+
+# format the table using tabulate
+headers = ['Age vs Insurance claim', '0', '1', 'Total', '0%', '1%', 'Total%']
+table = tabulate(table_combined, headers=headers, tablefmt='pipe', showindex=True, floatfmt=".2f")
+
+print(table)
+
+
+from tabulate import tabulate
+
+# create the contingency table with percentages
+cont_table = pd.crosstab(data['bmi_range'], data['insuranceclaim'], margins=True, margins_name='Total')
+row_pct = round(cont_table.div(cont_table['Total'], axis=0)*100, 2)
+col_pct = round(cont_table.div(cont_table['Total'].iloc[-1], axis=1)*100, 2)
+table_combined = pd.concat([cont_table, row_pct, col_pct], axis=1, sort=False)
+table_combined = table_combined.rename(columns={'insuranceclaim': '1', 0: '0'})
+
+# format the table using tabulate
+headers = ['BMI vs Insurance claim', '0', '1', 'Total', '0%', '1%', 'Total%']
+table = tabulate(table_combined, headers=headers, tablefmt='pipe', showindex=True, floatfmt=".2f")
+
+print(table)
+
+from tabulate import tabulate
+
+# create the contingency table with percentages
+cont_table = pd.crosstab(data['charges_range'], data['insuranceclaim'], margins=True, margins_name='Total')
+row_pct = round(cont_table.div(cont_table['Total'], axis=0)*100, 2)
+col_pct = round(cont_table.div(cont_table['Total'].iloc[-1], axis=1)*100, 2)
+table_combined = pd.concat([cont_table, row_pct, col_pct], axis=1, sort=False)
+table_combined = table_combined.rename(columns={'insuranceclaim': '1', 0: '0'})
+
+# format the table using tabulate
+headers = ['Charges vs Insurance claim', '0', '1', 'Total', '0%', '1%', 'Total%']
+table = tabulate(table_combined, headers=headers, tablefmt='pipe', showindex=True, floatfmt=".2f")
+
+print(table)
+
+from tabulate import tabulate
+
+# create the contingency table with percentages
+cont_table = pd.crosstab(data['steps_range'], data['insuranceclaim'], margins=True, margins_name='Total')
+row_pct = round(cont_table.div(cont_table['Total'], axis=0)*100, 2)
+col_pct = round(cont_table.div(cont_table['Total'].iloc[-1], axis=1)*100, 2)
+table_combined = pd.concat([cont_table, row_pct, col_pct], axis=1, sort=False)
+table_combined = table_combined.rename(columns={'insuranceclaim': '1', 0: '0'})
+
+# format the table using tabulate
+headers = ['Steps vs Insurance claim', '0', '1', 'Total', '0%', '1%', 'Total%']
+table = tabulate(table_combined, headers=headers, tablefmt='pipe', showindex=True, floatfmt=".2f")
+
+print(table)
+
+from tabulate import tabulate
+
+# create the contingency table with percentages
+cont_table = pd.crosstab(data['children'], data['insuranceclaim'], margins=True, margins_name='Total')
+row_pct = round(cont_table.div(cont_table['Total'], axis=0)*100, 2)
+col_pct = round(cont_table.div(cont_table['Total'].iloc[-1], axis=1)*100, 2)
+table_combined = pd.concat([cont_table, row_pct, col_pct], axis=1, sort=False)
+table_combined = table_combined.rename(columns={'insuranceclaim': '1', 0: '0'})
+
+# format the table using tabulate
+headers = ['Children/dependents vs Insurance claim', '0', '1', 'Total', '0%', '1%', 'Total%']
+table = tabulate(table_combined, headers=headers, tablefmt='pipe', showindex=True, floatfmt=".2f")
+
+print(table)
+from tabulate import tabulate
+
+# create the contingency table with percentages
+cont_table = pd.crosstab(data['sex'], data['insuranceclaim'], margins=True, margins_name='Total')
+row_pct = round(cont_table.div(cont_table['Total'], axis=0)*100, 2)
+col_pct = round(cont_table.div(cont_table['Total'].iloc[-1], axis=1)*100, 2)
+table_combined = pd.concat([cont_table, row_pct, col_pct], axis=1, sort=False)
+table_combined = table_combined.rename(columns={'insuranceclaim': '1', 0: '0'})
+
+# format the table using tabulate
+headers = ['Sex vs Insurance claim', '0', '1', 'Total', '0%', '1%', 'Total%']
+table = tabulate(table_combined, headers=headers, tablefmt='pipe', showindex=True, floatfmt=".2f")
+
+print(table)
+
+from tabulate import tabulate
+
+# create the contingency table with percentages
+cont_table = pd.crosstab(data['smoker'], data['insuranceclaim'], margins=True, margins_name='Total')
+row_pct = round(cont_table.div(cont_table['Total'], axis=0)*100, 2)
+col_pct = round(cont_table.div(cont_table['Total'].iloc[-1], axis=1)*100, 2)
+table_combined = pd.concat([cont_table, row_pct, col_pct], axis=1, sort=False)
+table_combined = table_combined.rename(columns={'insuranceclaim': '1', 0: '0'})
+
+# format the table using tabulate
+headers = ['Smokers vs Insurance claim', '0', '1', 'Total', '0%', '1%', 'Total%']
+table = tabulate(table_combined, headers=headers, tablefmt='pipe', showindex=True, floatfmt=".2f")
+
+print(table)
+
+# create the contingency table with percentages
+cont_table = pd.crosstab(data['region'], data['insuranceclaim'], margins=True, margins_name='Total')
+row_pct = round(cont_table.div(cont_table['Total'], axis=0)*100, 2)
+col_pct = round(cont_table.div(cont_table['Total'].iloc[-1], axis=1)*100, 2)
+table_combined = pd.concat([cont_table, row_pct, col_pct], axis=1, sort=False)
+table_combined = table_combined.rename(columns={'insuranceclaim': '1', 0: '0'})
+
+# format the table using tabulate
+headers = ['Regions vs Insurance claim', '0', '1', 'Total', '0%', '1%', 'Total%']
+table = tabulate(table_combined, headers=headers, tablefmt='pipe', showindex=True, floatfmt=".2f")
+
+print(table)
+
+
+
+from scipy.stats import ttest_ind
+group11 = data[data['insuranceclaim'] == 0]['age']
+group21 = data[data['insuranceclaim'] == 1]['age']
+t, p = ttest_ind(group11, group21, equal_var=False)
+
+# Print the results
+print('Welch\'s t-test to compare the means of a variable Age between two groups defined by  variable insuranceclaim results:')
+print('t-value =', t)
+print('p-value =', p)
+if p < 0.05:
+    print('There is significant evidence to reject the null hypothesis.')
+else:
+    print('There is not enough evidence to reject the null hypothesis.')
+    
+Hypothesis:
+H0: The mean age of customers who do not file insurance claims is equal to the mean age of customers who file insurance claims
+Ha: The mean age of customers who do not file insurance claims is less than the mean age of customers who file insurance claims
+
+
+
+# Split the data into two groups based on the binary categorical variable
+group12 = data[data["insuranceclaim"] == 0]["bmi"]
+group22 = data[data["insuranceclaim"] == 1]["bmi"]
+
+# Perform Welch's t-test
+t_stat, p_val = ttest_ind(group12, group22, equal_var=False)
+
+# Print the results
+print("Welch's t-test to compare the means of a variable BMI between two groups defined by  variable insuranceclaim results:")
+print("t-value:", t_stat)
+print("p-value:", p_val)
+if p < 0.05:
+    print('There is significant evidence to reject the null hypothesis.')
+else:
+    print('There is not enough evidence to reject the null hypothesis.')
+   
+    
+
+group13 = data[data['insuranceclaim'] == 0]['steps']
+group23 = data[data['insuranceclaim'] == 1]['steps']
+
+# Perform Welch's t-test using the stats.ttest_ind function
+t, p = ttest_ind(group13, group23, equal_var=False)
+
+# Print the results
+print('Welch\'s t-test to compare the means of a variable steps between two groups defined by  variable insuranceclaim results:')
+print("t-value:", t)
+print("p-value:", p)
+if p < 0.05:
+    print('There is significant evidence to reject the null hypothesis.')
+else:
+    print('There is not enough evidence to reject the null hypothesis.')
+
+
+
+group14 = data[data['insuranceclaim'] == 0]['children']
+group24 = data[data['insuranceclaim'] == 1]['children']
+
+# Perform Welch's t-test using the stats.ttest_ind function
+t1, p1 = ttest_ind(group14, group24, equal_var=False)
+
+# Print the results
+print('Welch\'s t-test to compare the means of a variable children between two groups defined by  variable insuranceclaim results:')
+print("t-value:", t1)
+print("p-value:", p1)
+if p < 0.05:
+    print('There is significant evidence to reject the null hypothesis.')
+else:
+    print('There is not enough evidence to reject the null hypothesis.')
+    
+    
+    
+group1 = data[data['insuranceclaim'] == 0]['charges']
+group2 = data[data['insuranceclaim'] == 1]['charges']
+
+# Perform Welch's t-test using the stats.ttest_ind function
+t2, p2 = ttest_ind(group1, group2, equal_var=False)
+
+# Print the results
+print('Welch\'s t-test to compare the means of a variable charges between two groups defined by  variable insuranceclaim results:')
+print("t-value:", t2)
+print("p-value:", p2)
+if p < 0.05:
+    print('There is significant evidence to reject the null hypothesis.')
+else:
+    print('There is not enough evidence to reject the null hypothesis.')
+
+## chisquare test
+from scipy.stats import chi2_contingency
+contingency_table1 = pd.crosstab(data['sex'], data['insuranceclaim'])
+
+# perform the chi-squared test
+stat, p, dof, expected = chi2_contingency(contingency_table1)
+print('Chi-square test to compare significant association or relationship between sex and insuranceclaim results:')
+print('Chi-squared statistic:', stat)
+print('p-value:', p)
+if p < 0.05:
+    print('There is significant evidence to reject the null hypothesis.')
+else:
+    print('There is not enough evidence to reject the null hypothesis.')
+    
+
+contingency_table2 = pd.crosstab(data['smoker'], data['insuranceclaim'])
+
+# perform the chi-squared test
+stat, p, dof, expected = chi2_contingency(contingency_table2)
+print('Chi-square test to compare significant association or relationship between smoker and insuranceclaim results:')
+print('Chi-squared statistic:', stat)
+print('p-value:', p)
+if p < 0.05:
+    print('There is significant evidence to reject the null hypothesis.')
+else:
+    print('There is not enough evidence to reject the null hypothesis.')
+    
+    
+contingency_table3 = pd.crosstab(data['region'], data['insuranceclaim'])
+
+# perform the chi-squared test
+stat, p, dof, expected = chi2_contingency(contingency_table3)
+print('Chi-square test to compare significant association or relationship between region and insuranceclaim results:')
+print('Chi-squared statistic:', stat)
+print('p-value:', p)
+if p < 0.05:
+    print('There is significant evidence to reject the null hypothesis.')
+else:
+    print('There is not enough evidence to reject the null hypothesis.')
+
